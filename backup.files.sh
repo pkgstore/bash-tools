@@ -10,7 +10,7 @@
 # @link       https://github.com/pkgstore
 # -------------------------------------------------------------------------------------------------------------------- #
 
-(( EUID == 0 )) && { echo >&2 "This script should not be run as root!"; exit 1; }
+(( EUID == 0 )) && { echo >&2 'This script should not be run as root!'; exit 1; }
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # CONFIGURATION.
@@ -31,7 +31,7 @@ EOF
 
 OPTIND=1
 
-while getopts "d:h" opt; do
+while getopts 'd:h' opt; do
   case ${opt} in
     d)
       dirs="${OPTARG}"; IFS=';' read -ra dirs <<< "${dirs}"
@@ -66,9 +66,9 @@ backup() {
   for dir in "${dirs[@]}"; do
     local name="${dir}.${ts_date}"
 
-    echo "" && echo "--- OPEN: '${dir}'"
+    echo '' && echo "--- OPEN: '${dir}'"
     ${tar} -cJf "${name}.tar.xz" "${dir}"
-    echo "" && echo "--- DONE: '${dir}'" && echo ""
+    echo '' && echo "--- DONE: '${dir}'" && echo ''
   done
 }
 

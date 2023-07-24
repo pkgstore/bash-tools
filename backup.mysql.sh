@@ -10,7 +10,7 @@
 # @link       https://github.com/pkgstore
 # -------------------------------------------------------------------------------------------------------------------- #
 
-(( EUID == 0 )) && { echo >&2 "This script should not be run as root!"; exit 1; }
+(( EUID == 0 )) && { echo >&2 'This script should not be run as root!'; exit 1; }
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # CONFIGURATION.
@@ -35,7 +35,7 @@ EOF
 
 OPTIND=1
 
-while getopts "u:p:d:h" opt; do
+while getopts 'u:p:d:h' opt; do
   case ${opt} in
     u)
       user="${OPTARG}"
@@ -76,11 +76,11 @@ backup() {
   for db in "${dbs[@]}"; do
     local name="${db}.${ts_date}.sql"
 
-    echo "" && echo "--- OPEN: '${db}'"
+    echo '' && echo "--- OPEN: '${db}'"
     ${mysqldump} -u "${user}" -p"${password}" --single-transaction "${db}" > "${name}" \
       && ${tar} -cJf "${name}.tar.xz" "${name}" \
       && ${rm} -f "${name}"
-    echo "" && echo "--- DONE: '${db}'" && echo ""
+    echo '' && echo "--- DONE: '${db}'" && echo ''
   done
 }
 

@@ -11,8 +11,8 @@
 # -------------------------------------------------------------------------------------------------------------------- #
 
 size=( 16 24 32 48 64 72 80 96 128 144 152 167 180 192 196 256 300 512 )
-file_svg="favicon.svg"
-file_ico="favicon.ico"
+file_svg='favicon.svg'
+file_ico='favicon.ico'
 
 rsvg="$( command -v rsvg-convert )"
 convert="$( command -v convert )"

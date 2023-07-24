@@ -10,7 +10,7 @@
 # @link       https://github.com/pkgstore
 # -------------------------------------------------------------------------------------------------------------------- #
 
-(( EUID == 0 )) && { echo >&2 "This script should not be run as root!"; exit 1; }
+(( EUID == 0 )) && { echo >&2 'This script should not be run as root!'; exit 1; }
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # EXT scripts.
@@ -45,13 +45,11 @@ run.git.push() {
   ts="$( _timestamp )"
   commit="$*"
 
-  echo ""
-  echo "--- OPEN: '${name}'"
+  echo '' && echo "--- OPEN: '${name}'"
   ${git} add . \
     && ${git} commit -a -m "${ts}" -m "${commit}" \
     && ${git} push
-  echo "--- DONE: '${name}'"
-  echo ""
+  echo "--- DONE: '${name}'" && echo ''
 }
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -76,11 +74,11 @@ run.git.push.tag() {
   tags="$( ${git} tag --list )"
   changes="$( ${git} status --porcelain )"
 
-  [[ -z "${changes}" ]] && count="0" || count="1"
+  [[ -z "${changes}" ]] && count='0' || count='1'
 
   if [[ -z "${1}" ]]; then
     if [[ -z "${tags}" ]]; then
-      version="1.0.0"
+      version='1.0.0'
     else
       tag=( "$( ${git} describe --abbrev=0 --tags | ${tr} '.' ' ' )" )
       major=${tag[1]}
@@ -92,7 +90,7 @@ run.git.push.tag() {
     version="${1}"
   fi
 
-  run.git.push "$@"                                       \
+  run.git.push "$@" \
     && ${git} tag -a "${version}" -m "Version ${version}" \
     && ${git} push origin "${version}"
 }
@@ -102,7 +100,7 @@ run.git.push.tag() {
 # -------------------------------------------------------------------------------------------------------------------- #
 
 run.git.push.page() {
-  [[ -z "${1}" ]] && branch="page-stable" || branch="${1}"
+  [[ -z "${1}" ]] && branch='page-stable' || branch="${1}"
   run.git.push "$@" \
     && ${git} checkout main \
     && ${git} merge "${branch}" \
@@ -115,7 +113,7 @@ run.git.push.page() {
 # -------------------------------------------------------------------------------------------------------------------- #
 
 run.git.push.cdn() {
-  [[ -z "${1}" ]] && branch="cdn-stable" || branch="${1}"
+  [[ -z "${1}" ]] && branch='cdn-stable' || branch="${1}"
   run.git.push "$@" \
     && ${git} checkout main \
     && ${git} merge "${branch}" \

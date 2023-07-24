@@ -11,18 +11,18 @@
 # -------------------------------------------------------------------------------------------------------------------- #
 
 structure() {
-  echo -n "Package Name [ENTER]: "; read -r PKG_NAME
-  echo -n "Package Version (ex.: 1.0.0) [ENTER]: "; read -r PKG_VER
-  echo -n "Package Arch (ex.: all/any/amd64/i386) [ENTER]: "; read -r PKG_ARCH
-  echo -n "Package Depends (ex.: pkg1, pkg2, pkg3) [ENTER]: "; read -r PKG_DEPENDS
-  echo -n "Package Section (ex.: pkg1, pkg2, pkg3) [ENTER]: "; read -r PKG_SECTION
-  echo -n "Package Priority (ex.: pkg1, pkg2, pkg3) [ENTER]: "; read -r PKG_PRIORITY
+  echo -n 'Package Name [ENTER]: '; read -r PKG_NAME
+  echo -n 'Package Version (ex.: 1.0.0) [ENTER]: '; read -r PKG_VER
+  echo -n 'Package Arch (ex.: all/any/amd64/i386) [ENTER]: '; read -r PKG_ARCH
+  echo -n 'Package Depends (ex.: pkg1, pkg2, pkg3) [ENTER]: '; read -r PKG_DEPENDS
+  echo -n 'Package Section (ex.: pkg1, pkg2, pkg3) [ENTER]: '; read -r PKG_SECTION
+  echo -n 'Package Priority (ex.: pkg1, pkg2, pkg3) [ENTER]: '; read -r PKG_PRIORITY
 
-  [[ -z "${PKG_NAME}" ]] && PKG_NAME="ext-example-pkg"
-  [[ -z "${PKG_VER}" ]] && PKG_VER="1.0.0"
-  [[ -z "${PKG_ARCH}" ]] && PKG_ARCH="all"
-  [[ -z "${PKG_SECTION}" ]] && PKG_SECTION="admin"
-  [[ -z "${PKG_PRIORITY}" ]] && PKG_PRIORITY="optional"
+  [[ -z "${PKG_NAME}" ]] && PKG_NAME='ext-example-pkg'
+  [[ -z "${PKG_VER}" ]] && PKG_VER='1.0.0'
+  [[ -z "${PKG_ARCH}" ]] && PKG_ARCH='all'
+  [[ -z "${PKG_SECTION}" ]] && PKG_SECTION='admin'
+  [[ -z "${PKG_PRIORITY}" ]] && PKG_PRIORITY='optional'
 
   PKG_REV="1"
 

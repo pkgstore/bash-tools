@@ -10,7 +10,7 @@
 # @link       https://github.com/pkgstore
 # -------------------------------------------------------------------------------------------------------------------- #
 
-(( EUID == 0 )) && { echo >&2 "This script should not be run as root!"; exit 1; }
+(( EUID == 0 )) && { echo >&2 'This script should not be run as root!'; exit 1; }
 
 _cmd_screen() {
   command -v screen
@@ -44,7 +44,7 @@ run() {
 server() {
   local OPTIND=1
 
-  while getopts "p:h" opt; do
+  while getopts 'p:h' opt; do
     case ${opt} in
       p)
         local port="${OPTARG}";
@@ -67,7 +67,7 @@ watch() {
 new() {
   local OPTIND=1
 
-  while getopts "t:h" opt; do
+  while getopts 't:h' opt; do
     case ${opt} in
       t)
         local type="${OPTARG}";
@@ -80,7 +80,7 @@ new() {
 
   shift $(( OPTIND - 1 ))
 
-  if [[ ${type} == "posts" ]]; then
+  if [[ ${type} == 'posts' ]]; then
     $( _cmd_hugo ) new "${type}/$( _year )/$( _month )/$( _timestamp )"
   else
     $( _cmd_hugo ) new "${type}/$( _timestamp )"
