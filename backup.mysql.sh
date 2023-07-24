@@ -26,7 +26,7 @@ read -r -d '' help <<- EOF
 Options:
   -u 'USER'                             MySQL user name.
   -p 'PASSWORD'                         MySQL user password.
-  -d 'DB_1;DB_2;DB_3'                   MySQL databases.
+  -d 'DB_1;DB_2;DB_3'                   MySQL databases (array).
 EOF
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -54,7 +54,7 @@ done
 
 shift $(( OPTIND - 1 ))
 
-(( ! ${#dbs[@]} )) && exit 1
+(( ! ${#dbs[@]} )) && { echo >&2 '[ERROR] Databases not specified!'; exit 1; }
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # INITIALIZATION.

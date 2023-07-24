@@ -22,7 +22,7 @@ date="$( command -v date )"
 # Help.
 read -r -d '' help <<- EOF
 Options:
-  -d 'DIR_1;DIR_2;DIR_3'                Directories.
+  -d 'DIR_1;DIR_2;DIR_3'                Directories (array).
 EOF
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -44,7 +44,7 @@ done
 
 shift $(( OPTIND - 1 ))
 
-(( ! ${#dirs[@]} )) && exit 1
+(( ! ${#dirs[@]} )) && { echo >&2 '[ERROR] Directories not specified!'; exit 1; }
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # INITIALIZATION.
