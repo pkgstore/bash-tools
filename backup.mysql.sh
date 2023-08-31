@@ -17,16 +17,17 @@
 # -------------------------------------------------------------------------------------------------------------------- #
 
 mysqldump="$( command -v mysqldump )"
-tar="$( command -v tar )"
+p7zip="$( command -v 7zzs )"
 date="$( command -v date )"
 rm="$( command -v rm )"
 
 # Help.
 read -r -d '' help <<- EOF
 Options:
-  -u 'USER'                             MySQL user name.
-  -p 'PASSWORD'                         MySQL user password.
+  -u 'DB_USER'                          MySQL user name.
+  -p 'DB_PASSWORD'                      MySQL user password.
   -d 'DB_1;DB_2;DB_3'                   MySQL databases (array).
+  -s 'SECRET'                           Archive password.
 EOF
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -35,7 +36,7 @@ EOF
 
 OPTIND=1
 
-while getopts 'u:p:d:h' opt; do
+while getopts 'u:p:d:s:h' opt; do
   case ${opt} in
     u)
       user="${OPTARG}"
@@ -45,6 +46,9 @@ while getopts 'u:p:d:h' opt; do
       ;;
     d)
       dbs="${OPTARG}"; IFS=';' read -ra dbs <<< "${dbs}"
+      ;;
+    s)
+      secret="${OPTARG}"
       ;;
     h|*)
       echo "${help}"; exit 2
@@ -61,10 +65,6 @@ shift $(( OPTIND - 1 ))
 # -------------------------------------------------------------------------------------------------------------------- #
 
 init() {
-  # Functions.
-  ts_date="$( _ts_date )"
-
-  # Run.
   backup
 }
 
@@ -73,12 +73,14 @@ init() {
 # -------------------------------------------------------------------------------------------------------------------- #
 
 backup() {
+  ts="$( _timestamp )"
+
   for db in "${dbs[@]}"; do
-    local name="${db}.${ts_date}.sql"
+    local name="${db}.${ts}.sql"
 
     echo '' && echo "--- OPEN: '${db}'"
     ${mysqldump} -u "${user}" -p"${password}" --single-transaction "${db}" > "${name}" \
-      && ${tar} -cJf "${name}.tar.xz" "${name}" \
+      && ${p7zip} a -t7z -m0=lzma2 -mx=9 "${name}.7z" -p"${secret}" -mhe "${name}" \
       && ${rm} -f "${name}"
     echo '' && echo "--- DONE: '${db}'" && echo ''
   done
@@ -89,7 +91,7 @@ backup() {
 # -------------------------------------------------------------------------------------------------------------------- #
 
 # Timestamp: Date.
-_ts_date() {
+_timestamp() {
   ${date} -u '+%Y-%m-%d.%H-%M-%S'
 }
 

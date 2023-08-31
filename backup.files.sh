@@ -16,13 +16,14 @@
 # CONFIGURATION.
 # -------------------------------------------------------------------------------------------------------------------- #
 
-tar="$( command -v tar )"
+p7zip="$( command -v 7zzs )"
 date="$( command -v date )"
 
 # Help.
 read -r -d '' help <<- EOF
 Options:
   -d 'DIR_1;DIR_2;DIR_3'                Directories (array).
+  -s 'SECRET'                           Archive password.
 EOF
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -31,10 +32,13 @@ EOF
 
 OPTIND=1
 
-while getopts 'd:h' opt; do
+while getopts 'd:s:h' opt; do
   case ${opt} in
     d)
       dirs="${OPTARG}"; IFS=';' read -ra dirs <<< "${dirs}"
+      ;;
+    s)
+      secret="${OPTARG}"
       ;;
     h|*)
       echo "${help}"; exit 2
@@ -51,10 +55,6 @@ shift $(( OPTIND - 1 ))
 # -------------------------------------------------------------------------------------------------------------------- #
 
 init() {
-  # Functions.
-  ts_date="$( _ts_date )"
-
-  # Run.
   backup
 }
 
@@ -63,11 +63,13 @@ init() {
 # -------------------------------------------------------------------------------------------------------------------- #
 
 backup() {
+  ts="$( _timestamp )"
+
   for dir in "${dirs[@]}"; do
-    local name="${dir}.${ts_date}"
+    local name="${dir}.${ts}"
 
     echo '' && echo "--- OPEN: '${dir}'"
-    ${tar} -cJf "${name}.tar.xz" "${dir}"
+    ${p7zip} a -t7z -m0=lzma2 -mx=9 "${name}.7z" -p"${secret}" -mhe "${dir}"
     echo '' && echo "--- DONE: '${dir}'" && echo ''
   done
 }
@@ -77,7 +79,7 @@ backup() {
 # -------------------------------------------------------------------------------------------------------------------- #
 
 # Timestamp: Date.
-_ts_date() {
+_timestamp() {
   ${date} -u '+%Y-%m-%d.%H-%M-%S'
 }
 
