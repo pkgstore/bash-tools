@@ -7,7 +7,7 @@
 # @copyright  2023 iHub TO
 # @license    MIT
 # @version    0.0.1
-# @link       https://github.com/pkgstore
+# @link       https://lib.onl
 # -------------------------------------------------------------------------------------------------------------------- #
 
 structure() {
